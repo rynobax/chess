@@ -1,0 +1,36 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Board {
+  display: grid;
+  grid-template-columns: repeat(8, 12.5%);
+  grid-template-rows: repeat(8, 12.5%);
+  aspect-ratio: 1 / 1;
+  flex: 1;
+  max-width: 80vh;
+  max-height: 80vw;
+}
+
+.Square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.DarkSquare {
+  background-color: slategray;
+}
+
+.LightSquare {
+  background-color: bisque;
+}
+
+.Piece {
+  flex: 1;
+}

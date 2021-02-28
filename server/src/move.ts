@@ -1,57 +1,106 @@
 import { Color, Position, Move } from "../../types";
 
-export function allMoves(board: Position, color: Color): Array<Move> {
+export function allValidMoves(position: Position, color: Color): Array<Move> {
   const moves: Array<Move> = [];
-  for (let src = 0; src < board.length; src++) {
-    const piece = board[src];
+  for (let src = 0; src < position.length; src++) {
+    const piece = position[src];
     if (!piece) continue;
     if (piece.color !== color) continue;
     switch (piece.type) {
       case "pawn":
-        // forward once
-        moves.push({ src, dest: src + (color === "dark" ? 8 : -8) });
+        const direction = color === "dark" ? 1 : -1;
 
-        // forward twice
-        if (
-          (color === "dark" && src < 16) ||
-          (color === "light" && src >= 48)
-        ) {
-          moves.push({ src, dest: src + (color === "dark" ? 16 : -16) });
+        // forward once
+        const forwardOnce = src + 8 * direction;
+        if (!position[forwardOnce]) {
+          moves.push({ src, dest: forwardOnce });
+
+          // forward twice
+          if (
+            (color === "dark" && src < 16) ||
+            (color === "light" && src >= 48)
+          ) {
+            const forwardTwice = src + 16 * direction;
+            if (!position[forwardOnce]) moves.push({ src, dest: forwardTwice });
+          }
         }
 
-        // diagonal take (+ en passante)
+        const takeSquares = [src + 7 * direction, src + 9 * direction];
+        for (const dest of takeSquares) {
+          if (position[dest]?.color !== color) {
+            moves.push({ src, dest });
+          }
+        }
 
-        // promote
+        // TODO: promote
+        // TODO: en passante
 
         break;
       case "bishop":
-        moves.push(...diagonalMoves(src));
+        moves.push(...diagonalMoves(src, position, color));
         break;
       case "rook":
-        moves.push(...straightMoves(src));
+        moves.push(...straightMoves(src, position, color));
         break;
-      case "knight":
+      case "knight": {
+        let dest: number;
+        dest = src - 17;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src - 15;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src - 10;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src - 6;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src + 17;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src + 15;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src + 10;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src + 6;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
         break;
+      }
       case "queen":
-        moves.push(...diagonalMoves(src));
-        moves.push(...straightMoves(src));
+        moves.push(...diagonalMoves(src, position, color));
+        moves.push(...straightMoves(src, position, color));
         break;
-      case "king":
-        moves.push({ src, dest: src - 7 });
-        moves.push({ src, dest: src - 8 });
-        moves.push({ src, dest: src - 9 });
-        moves.push({ src, dest: src - 1 });
-        moves.push({ src, dest: src + 1 });
-        moves.push({ src, dest: src + 7 });
-        moves.push({ src, dest: src + 8 });
-        moves.push({ src, dest: src + 9 });
+      case "king": {
+        let dest: number;
+        dest = src - 7;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src - 8;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src - 9;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src - 1;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src + 1;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src + 7;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src + 8;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+        dest = src + 9;
+        if (position[dest]?.color !== color) moves.push({ src, dest });
+
+        // TODO: Castle
+        // TODO: Cannot move into check
         break;
+      }
     }
   }
-  return moves;
+
+  // TODO: might be more efficient to filter earlier
+  return moves.filter((m) => m.dest >= 0 && m.dest < 64);
 }
 
-function diagonalMoves(src: number): Array<Move> {
+function diagonalMoves(
+  src: number,
+  position: Position,
+  color: Color
+): Array<Move> {
   const moves: Array<Move> = [];
   let dest;
 
@@ -59,34 +108,58 @@ function diagonalMoves(src: number): Array<Move> {
   dest = src;
   while (dest >= 0) {
     dest -= 9;
-    moves.push({ src, dest });
+    const square = position[dest];
+    if (square) {
+      if (square.color !== color) moves.push({ src, dest });
+      break;
+    } else {
+      moves.push({ src, dest });
+    }
   }
 
   // up right
   dest = src;
   while (dest >= 0) {
     dest -= 7;
-    moves.push({ src, dest });
+    const square = position[dest];
+    if (square) {
+      if (square.color !== color) moves.push({ src, dest });
+      break;
+    } else {
+      moves.push({ src, dest });
+    }
   }
 
   // down left
   dest = src;
   while (dest < 64) {
     dest += 7;
-    moves.push({ src, dest });
+    const square = position[dest];
+    if (square) {
+      if (square.color !== color) moves.push({ src, dest });
+      break;
+    } else {
+      moves.push({ src, dest });
+    }
   }
 
   // down right
   dest = src;
   while (dest < 64) {
     dest += 9;
-    moves.push({ src, dest });
+    const square = position[dest];
+    if (square) {
+      if (square.color !== color) moves.push({ src, dest });
+      break;
+    } else {
+      moves.push({ src, dest });
+    }
   }
 
   return moves;
 }
 
-function straightMoves(src: number) {
+function straightMoves(src: number, position: Position, color: Color) {
   const moves: Array<Move> = [];
   let dest;
 
@@ -94,14 +167,26 @@ function straightMoves(src: number) {
   dest = src;
   while (dest >= 0) {
     dest -= 8;
-    moves.push({ src, dest });
+    const square = position[dest];
+    if (square) {
+      if (square.color !== color) moves.push({ src, dest });
+      break;
+    } else {
+      moves.push({ src, dest });
+    }
   }
 
   // down
   dest = src;
   while (dest < 64) {
     dest += 8;
-    moves.push({ src, dest });
+    const square = position[dest];
+    if (square) {
+      if (square.color !== color) moves.push({ src, dest });
+      break;
+    } else {
+      moves.push({ src, dest });
+    }
   }
 
   const minLeft = Math.floor(src / 8) * 8;
@@ -111,14 +196,26 @@ function straightMoves(src: number) {
   dest = src;
   while (dest >= minLeft) {
     dest -= 1;
-    moves.push({ src, dest });
+    const square = position[dest];
+    if (square) {
+      if (square.color !== color) moves.push({ src, dest });
+      break;
+    } else {
+      moves.push({ src, dest });
+    }
   }
 
   // right
   dest = src;
   while (dest <= maxRight) {
     dest += 1;
-    moves.push({ src, dest });
+    const square = position[dest];
+    if (square) {
+      if (square.color !== color) moves.push({ src, dest });
+      break;
+    } else {
+      moves.push({ src, dest });
+    }
   }
 
   return moves;

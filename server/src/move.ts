@@ -37,6 +37,14 @@ export function allMoves(board: Position, color: Color): Array<Move> {
         moves.push(...straightMoves(src));
         break;
       case "king":
+        moves.push({ src, dest: src - 7 });
+        moves.push({ src, dest: src - 8 });
+        moves.push({ src, dest: src - 9 });
+        moves.push({ src, dest: src - 1 });
+        moves.push({ src, dest: src + 1 });
+        moves.push({ src, dest: src + 7 });
+        moves.push({ src, dest: src + 8 });
+        moves.push({ src, dest: src + 9 });
         break;
     }
   }

@@ -189,13 +189,12 @@ function straightMoves(src: number, position: Position, color: Color) {
     }
   }
 
-  const minLeft = Math.floor(src / 8) * 8;
-  const maxRight = Math.ceil(src / 8) * 8;
+  const minLeft = Math.floor((src + 0.5) / 8) * 8;
+  const maxRight = Math.ceil((src + 0.5) / 8) * 8;
 
   // left
-  dest = src;
+  dest = src - 1;
   while (dest >= minLeft) {
-    dest -= 1;
     const square = position[dest];
     if (square) {
       if (square.color !== color) moves.push({ src, dest });
@@ -203,12 +202,12 @@ function straightMoves(src: number, position: Position, color: Color) {
     } else {
       moves.push({ src, dest });
     }
+    dest -= 1;
   }
 
   // right
-  dest = src;
-  while (dest <= maxRight) {
-    dest += 1;
+  dest = src + 1;
+  while (dest < maxRight) {
     const square = position[dest];
     if (square) {
       if (square.color !== color) moves.push({ src, dest });
@@ -216,6 +215,7 @@ function straightMoves(src: number, position: Position, color: Color) {
     } else {
       moves.push({ src, dest });
     }
+    dest += 1;
   }
 
   return moves;

@@ -220,3 +220,13 @@ function straightMoves(src: number, position: Position, color: Color) {
 
   return moves;
 }
+
+export function makeMove(position: Position, move: Move): Position {
+  const newPosition = [...position];
+  newPosition[move.dest] = position[move.src];
+  newPosition[move.src] = null;
+  // TODO: en passant
+  // TODO: castling
+  // TODO: promoting
+  return newPosition;
+}

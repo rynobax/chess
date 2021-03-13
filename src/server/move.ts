@@ -1,4 +1,4 @@
-import { Color, Position, Move } from "../../types";
+import { Color, Position, Move } from "../types";
 
 export function allValidMoves(position: Position, color: Color): Array<Move> {
   const moves: Array<Move> = [];

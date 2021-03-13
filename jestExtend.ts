@@ -1,6 +1,6 @@
-import { Move, Position } from "../types";
-import { makeMove } from "./src/move";
-import { positionToAscii } from "./tests/util";
+import { Move, Position } from "./src/types";
+import { makeMove } from "./src/server/move";
+import { positionToAscii } from "./src/testUtil";
 
 expect.extend({
   toHaveMoves(

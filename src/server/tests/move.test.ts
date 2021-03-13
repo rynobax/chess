@@ -1,9 +1,6 @@
-import { allValidMoves, makeMove } from "../src/move";
+import { allValidMoves } from "../move";
 import { fenToPosition } from "../../fen";
-import { Move, Position } from "../../types";
-import { positionToAscii } from "./util";
-
-// TODO: Move this to different file
+import { Position } from "../../types";
 
 it("empty position returns no moves", () => {
   const position = new Array(64).fill(null);

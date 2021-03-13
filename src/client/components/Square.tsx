@@ -1,5 +1,5 @@
 import React from "react";
-import { Color, Piece } from "../../../types";
+import { Color, Piece } from "../../types";
 
 import BlackBishop from "../images/Chess_bdt45.svg";
 import BlackKing from "../images/Chess_kdt45.svg";

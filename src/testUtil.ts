@@ -1,4 +1,4 @@
-import { Piece, Position } from "../../types";
+import { Piece, Position } from "./types";
 
 const HORIZONTAL_LINE = `+${new Array(31).fill("-").join("")}+`;
 export function positionToAscii(position: Position) {

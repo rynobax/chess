@@ -1,5 +1,5 @@
 import React from "react";
-import { Color, Position } from "../../../types";
+import { Color, Position } from "../../types";
 import Square from "./Square";
 
 interface BoardProps {

@@ -1,8 +1,8 @@
 import React from "react";
 import "./App.css";
 import Board from "./components/Board";
-import { Position } from "../../types";
-import { fenToPosition } from "../../fen";
+import { Position } from "../types";
+import { fenToPosition } from "../fen";
 
 const START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 

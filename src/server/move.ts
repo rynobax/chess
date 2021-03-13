@@ -106,7 +106,7 @@ function diagonalMoves(
 
   // up left
   dest = src;
-  while (dest >= 0) {
+  while (dest >= 0 && dest % 8 > 0) {
     dest -= 9;
     const square = position[dest];
     if (square) {
@@ -119,7 +119,7 @@ function diagonalMoves(
 
   // up right
   dest = src;
-  while (dest >= 0) {
+  while (dest >= 0 && dest % 8 < 7) {
     dest -= 7;
     const square = position[dest];
     if (square) {
@@ -132,7 +132,7 @@ function diagonalMoves(
 
   // down left
   dest = src;
-  while (dest < 64) {
+  while (dest < 64 && dest % 8 > 0) {
     dest += 7;
     const square = position[dest];
     if (square) {
@@ -145,7 +145,7 @@ function diagonalMoves(
 
   // down right
   dest = src;
-  while (dest < 64) {
+  while (dest < 64 && dest % 8 < 7) {
     dest += 9;
     const square = position[dest];
     if (square) {

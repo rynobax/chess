@@ -23,7 +23,9 @@ expect.extend({
       message += `to have these positions:\n`;
       onlyInActual.forEach((move) => {
         const newPosition = makeMove(startingPosition, move);
-        message += `${JSON.stringify(move)}\n${positionToAscii(newPosition)}\n`;
+        message += `${JSON.stringify(
+          move
+        )} (was not in expected)\n${positionToAscii(newPosition)}\n`;
       });
       if (onlyInExpected.length > 0) {
         message += " and ";
@@ -33,7 +35,9 @@ expect.extend({
       message += `to not have positions:\n`;
       onlyInExpected.forEach((move) => {
         const newPosition = makeMove(startingPosition, move);
-        message += `${JSON.stringify(move)}\n${positionToAscii(newPosition)}\n`;
+        message += `${JSON.stringify(
+          move
+        )} (was in expected)\n${positionToAscii(newPosition)}\n`;
       });
     }
 

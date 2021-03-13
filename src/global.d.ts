@@ -1,4 +1,4 @@
-import type { Move, Position } from "./src/types";
+import type { Move, Position } from "./types";
 
 declare global {
   namespace jest {
@@ -7,5 +7,3 @@ declare global {
     }
   }
 }
-
-export {};
